@@ -1,0 +1,20 @@
+{
+    "button_keys": [
+        {
+            "button1_key": "z",
+            "button2_key": "x"
+        }
+    ],
+    "positions": [
+        {
+            "button1_pos": [
+                2392,
+                494
+            ],
+            "button2_pos": [
+                3253,
+                451
+            ]
+        }
+    ]
+}

@@ -1,10 +1,9 @@
 import pynput as pn
 import keyboard as kb
-from menu import *
+from App import * 
 
-running = True
-
-menu() 
-      
+if __name__ == "__main__":
+    app = App()
+    app.menu()
 
    

@@ -12,6 +12,8 @@ class App:
 
         self.button1 = Button()
         self.button2 = Button()
+        self.space_button = Button()
+        self.sec_space_pos = (0,0)
 
         self.scene = 'menu'
         self.scene_selector = '0'
@@ -51,6 +53,7 @@ class App:
             print('''1. 𝖘𝖙𝖆𝖗𝖙 𝖕𝖗𝖔𝖌𝖗𝖆𝖒''')
             print('''2. 𝖘𝖊𝖙 𝖇𝖎𝖓𝖉𝖎𝖓𝖌''')
             print('''3. 𝖘𝖊𝖙 𝖕𝖗𝖊𝖘𝖊𝖙 𝖕𝖔𝖘𝖎𝖙𝖎𝖔𝖓𝖘''')
+            print('4. space mode')
             print('''q. 𝖊𝖝𝖎𝖙''')
             self.scene_selector = self.get_single_key()
             time.sleep(0.15) 
@@ -66,6 +69,10 @@ class App:
             if self.scene_selector == '3':
                 # self.scene = 'setpresets'
                 self.set_presets_pos()
+
+            if self.scene_selector == '4':
+                # self.scene = 'setpresets'
+                self.start_space_mode()
 
             if self.scene_selector == 'q':
                 save_settings(self.button1.key, self.button2.key, self.button1.pos, self.button2.pos)
@@ -97,6 +104,49 @@ class App:
                 # self.scene = 'menu'
                 break
         self.menu()
+
+    def start_space_mode(self):
+        self.space_button.key = 'space'
+        print('set the mouse on the preset, then press 1')
+        while True:
+            if kb.is_pressed('1'):
+                self.space_button.set_pos(self.mouse.position)
+                break
+        print(f"saved: - Preset space on: {self.space_button.pos}")
+
+        print('set the mouse on the preset, then press 2')
+        while True:
+            if kb.is_pressed('2'):
+                self.sec_space_pos = self.mouse.position
+                break
+
+        os.system("cls||clear")
+        print(f"saved:\n - Button 1: {self.space_button.pos}\n - Button 2: {self.sec_space_pos}")
+        
+        print('enter for start space mode')
+        while True:
+            if kb.is_pressed('enter'):
+                break
+        
+        print('esc for exit')
+        while True:
+            if kb.is_pressed(self.space_button.key) and not self.space_button.is_pressed:
+                self.space_button.is_pressed = True
+                self.move_mouse(self.space_button.pos)
+                buffor = self.sec_space_pos
+                self.sec_space_pos = self.space_button.pos
+                self.space_button.pos = buffor
+                self.click_mouse()
+                print(f'{self.space_button.key} pressed')
+
+            if not kb.is_pressed(self.space_button.key) and self.space_button.is_pressed:
+                self.space_button.is_pressed = False
+            
+            if kb.is_pressed('esc'):
+                # self.scene = 'menu'
+                break
+        self.menu()
+
 
     def set_hot_keys(self):
         print('press key for set to button 1')
